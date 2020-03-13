@@ -1,0 +1,19 @@
+{
+  "name": "dev",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bin": {
+    "np": "./index.js"
+  },
+  "dependencies": {
+    "commander": "^4.1.1",
+    "dotenv": "^8.2.0"
+  }
+}
