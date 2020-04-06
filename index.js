@@ -5,7 +5,7 @@
 
 // Variable Declarations
 
-const { exec, execFile } = require('child_process');
+const { exec } = require('child_process');
 const p = require('commander');
 const config = require('./config');
 let fullPath;
@@ -22,14 +22,15 @@ const run = async (command) => {
 const parseArgs = () => {
     p.option('-n, --name <projectName>', 'Project Name')
     .option('-t, --type <projectType>', 'Project Type (Vue, Flutter, HTML, etc.)')
-    .option('-r, --repo', 'If true, sets up a new repo on github');
+    .option('-r, --repo', 'If true, sets up a new repo on github')
+    .option('-c --curDir', 'If true, create the new project in current directory');
     
     p.parse(process.argv);
-    fullPath = `${config.DEST_FOLDER}/${p.name}`;
+    fullPath = p.curDir ? `${process.cwd()}/${p.name}` : `${config.DEST_FOLDER}/${p.name}`;
 };
 
 const createNewProject = async () => {
-    process.chdir(`${config.DEST_FOLDER}`);
+    process.chdir(`${p.curDir ? process.cwd() : config.DEST_FOLDER}`);
     console.log(`Creating ${p.type} Project, Please Wait...`);
     switch (p.type.toLowerCase()) {
         case 'java':
@@ -54,6 +55,8 @@ const createNewProject = async () => {
     if (p.repo) {
         await createRepo(true);
         console.log('Repo Created! Time to start coding...');
+    } else {
+        process.chdir(fullPath);
     }
 
     openEditor();
