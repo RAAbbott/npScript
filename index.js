@@ -36,6 +36,9 @@ const createNewProject = async () => {
         case 'java':
             await newJava();
             break;
+        case 'node':
+            await newNode();
+            break;
         case 'vue':
             await newVue();
             break;
@@ -80,6 +83,13 @@ const newJava = async () => {
     await run(`mkdir ${p.name}`);
     await run(`touch ${p.name}/${p.name}.java`);
 };
+
+const newNode = async () => {
+    await run(`mkdir ${p.name}`);
+    await run (`touch ${p.name}/index.js`);
+    process.chdir(`${fullPath}`);
+    await run (`npm init -y`);
+}
 
 const newVue = async () => {
     await run(`vue create -d ${p.name}`).catch((err) => console.log(err));
